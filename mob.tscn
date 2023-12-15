@@ -1,0 +1,118 @@
+[gd_scene load_steps=20 format=3 uid="uid://db8s8hx7xop0n"]
+
+[ext_resource type="Script" path="res://mob.gd" id="1_jrv6v"]
+[ext_resource type="Texture2D" uid="uid://b028h0fynxtvh" path="res://art/enemyFlyingAlt_1.png" id="1_v57q7"]
+[ext_resource type="Texture2D" uid="uid://c77e5k8m70g1x" path="res://art/enemyFlyingAlt_2.png" id="2_y1cr5"]
+[ext_resource type="Texture2D" uid="uid://brmk8tekdxqh5" path="res://art/enemySwimming_1.png" id="3_gd7mj"]
+[ext_resource type="Texture2D" uid="uid://bnuxr7yc70rud" path="res://art/explosion/1.png" id="4_8e1wu"]
+[ext_resource type="Texture2D" uid="uid://eyn186i12quq" path="res://art/enemySwimming_2.png" id="4_5014i"]
+[ext_resource type="Texture2D" uid="uid://6dgsecs1hm7m" path="res://art/explosion/2.png" id="5_bvp1w"]
+[ext_resource type="Texture2D" uid="uid://b2riq4qymfd4y" path="res://art/enemyWalking_1.png" id="5_ngrxj"]
+[ext_resource type="Texture2D" uid="uid://bmkryga5t8ovs" path="res://art/enemyWalking_2.png" id="6_hpi2n"]
+[ext_resource type="Texture2D" uid="uid://xcgis2ur7fen" path="res://art/explosion/3.png" id="6_mv72p"]
+[ext_resource type="Texture2D" uid="uid://dpdg2tea3rs7n" path="res://art/explosion/4.png" id="7_41upb"]
+[ext_resource type="Texture2D" uid="uid://bt5e4x02gs8ut" path="res://art/explosion/5.png" id="8_tks17"]
+[ext_resource type="Texture2D" uid="uid://djxcr6g55whsk" path="res://art/explosion/6.png" id="9_lerhx"]
+[ext_resource type="Texture2D" uid="uid://cxuklpdy2c27x" path="res://art/explosion/7.png" id="10_4mdpe"]
+[ext_resource type="Texture2D" uid="uid://4jq36rhg3bsm" path="res://art/explosion/8.png" id="11_i16gq"]
+[ext_resource type="Texture2D" uid="uid://ds1nkjjve1jeq" path="res://art/explosion/9.png" id="12_vtbdj"]
+[ext_resource type="Texture2D" uid="uid://cha6nuwh5gx73" path="res://art/explosion/10.png" id="13_14rnq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_34q4c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_8e1wu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_bvp1w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_mv72p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_41upb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_tks17")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_lerhx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_4mdpe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_i16gq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_vtbdj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_14rnq")
+}],
+"loop": true,
+"name": &"explode",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v57q7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_y1cr5")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_gd7mj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5014i")
+}],
+"loop": true,
+"name": &"swim",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_ngrxj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_hpi2n")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 3.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sfnys"]
+radius = 36.0
+height = 100.0
+
+[node name="Mob" type="RigidBody2D" groups=["mobs"]]
+position = Vector2(-1, 1)
+collision_layer = 3
+collision_mask = 0
+gravity_scale = 0.0
+max_contacts_reported = 10
+contact_monitor = true
+script = ExtResource("1_jrv6v")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_34q4c")
+animation = &"swim"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_sfnys")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
